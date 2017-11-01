@@ -53,6 +53,7 @@ func (b Bytes) Score() float64 {
 		sum += (v - charFreq[k]) * (v - charFreq[k])
 	}
 
+	// Penalize characters that aren't in expCharFreq
 	for k, v := range charFreq {
 		if _, ok := expCharFreq[k]; ok {
 			continue
@@ -68,8 +69,8 @@ func (input Bytes) SingleCharHexXOR() (float64, Bytes, Bytes, error) {
 	var minScoreOutput Bytes
 	var minScoreKey Bytes
 
-	for i := byte(0); i <= 127; i++ {
-		key := Bytes([]byte{i})
+	for i := 0; i <= 255; i++ {
+		key := Bytes{byte(i)}
 		output, err := input.HexXOR(key)
 		if err != nil {
 			return 0, Bytes{}, Bytes{}, err

@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestManualBreakCTRSingleNonce(t *testing.T) {
+func _TestManualBreakCTRSingleNonce(t *testing.T) {
 	path := "./challenge3_19.txt"
 
 	lines, err := crp.LinesFromFile(path)
