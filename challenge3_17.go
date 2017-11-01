@@ -4,6 +4,14 @@ import (
 	"errors"
 )
 
+func RepeatByte(b byte, n int) Bytes {
+	ret := make(Bytes, n)
+	for i := 0; i < n; i++ {
+		ret[i] = b
+	}
+	return ret
+}
+
 func BreakCBCWithPaddingSideChannelLeak(cipher Bytes, iv Bytes, paddingValid func(Bytes) bool) (Bytes, error) {
 	bs := 16
 
@@ -43,13 +51,6 @@ func BreakCBCWithPaddingSideChannelLeak(cipher Bytes, iv Bytes, paddingValid fun
 	// plaintextLength := len(cipher) - paddingLength
 
 	// Find plaintext
-	repeatByte := func(b byte, n int) Bytes {
-		ret := make(Bytes, n)
-		for i := 0; i < n; i++ {
-			ret[i] = b
-		}
-		return ret
-	}
 
 	var plaintextPadded Bytes
 
@@ -76,8 +77,8 @@ func BreakCBCWithPaddingSideChannelLeak(cipher Bytes, iv Bytes, paddingValid fun
 				if paddingValid(testCipher) {
 					targetBlockDiffMask[bs-paddingLength] = byte(j)
 					if paddingLength == bs {
-						finalDiff := xorBytes(testDiffMask, repeatByte(byte(bs), bs))
-						plaintextPadded = append(plaintextPadded, xorBytes(finalDiff, prevCipherBlock)...)
+						finalDiff := XORBytes(testDiffMask, RepeatByte(byte(bs), bs))
+						plaintextPadded = append(plaintextPadded, XORBytes(finalDiff, prevCipherBlock)...)
 					}
 					break
 				}

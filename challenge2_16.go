@@ -1,6 +1,6 @@
 package crp
 
-func xorBytes(s1, s2 Bytes) Bytes {
+func XORBytes(s1, s2 Bytes) Bytes {
 	if len(s1) != len(s2) {
 		panic("cannot xor slices of differing lengths")
 	}
@@ -19,14 +19,14 @@ func CBCProduceAdminCredentialViaBitflipping(encrptCBC func(Bytes) (Bytes, error
 
 	innocentString := "myuserdata1"
 	desiredString := ";admin=true"
-	flipDiff := xorBytes(Bytes(innocentString), Bytes(desiredString))
+	flipDiff := XORBytes(Bytes(innocentString), Bytes(desiredString))
 
 	cipher, err := encrptCBC(Bytes(innocentString))
 
 	// flip innocent string to desired string
 	targetStart := 16
 	targetSlice := cipher[targetStart : targetStart+len(flipDiff)]
-	copy(targetSlice, xorBytes(targetSlice, flipDiff))
+	copy(targetSlice, XORBytes(targetSlice, flipDiff))
 
 	return cipher, err
 }
