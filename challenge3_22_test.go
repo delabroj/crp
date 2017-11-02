@@ -16,5 +16,5 @@ func TestFindMT19937SeedFromFirstOutput(t *testing.T) {
 	seed := crp.FindMT19937SeedFromFirstOutput(mt.ExtractUint32())
 	require.Equal(t, expSeed, seed)
 
-	log.Println("Challenge 3.21 seed:", seed)
+	log.Println("Challenge 3.22 seed:", seed)
 }
